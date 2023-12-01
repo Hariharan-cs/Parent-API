@@ -142,7 +142,14 @@ module.exports = (app) => {
 
   app.put("/validate-token", (req, res) => {
     // Response
-    console.log('validate data', req.body)
+    // console.log("acquire data", req.body);
+    let toUTCString = new Date().toUTCString()
+
+    Object.keys(req.body).map((item)=>{
+      req.body[item] = req.body[item] + ' ' + toUTCString;
+      res.header(item, req.body[item]);
+    })
+
     res.send({
       data:req.body,
       success: true,
@@ -153,16 +160,19 @@ module.exports = (app) => {
   });
 
   app.put("/acquire-token", (req, res) => {
-    console.log("acquire data", req.body);
+    // console.log("acquire data", req.body);
 
     let toUTCString = new Date().toUTCString()
+
+
+    Object.keys(req.body).map((item)=>{
+      req.body[item] = req.body[item] + ' ' + toUTCString;
+      res.header(item, req.body[item]);
+    })
+
     // Response
     res.send({
-      data: {
-        accessToken: "1access2Token" + toUTCString,
-        refreshToken: "1refresh2Token" + toUTCString,
-        idToken: "1id2Token" + toUTCString,
-      },
+      data: req.body,
       success: true,
       error: {
         message: "",
